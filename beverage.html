@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coffee Order System</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: rgb(219, 182, 119); 
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background-color: #f5f5dc;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    header h1 {
+        margin: 0;
+        font-size: 1.5rem;
+        color: #2b2b2b;
+    }
+    .order-status {
+        cursor: pointer;
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        background-color: #e4b98d;
+        color: #fff;
+        text-decoration: none;
+    }
+    .order-status:hover {
+        background-color: #a07755;
+    }
+    main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .beverage-options {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+    button {
+        background-color: #e4b98d;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        text-transform: uppercase;
+    }
+    button:hover {
+        background-color: #a07755;
+    }
+    .beverage-title {
+        text-align: center;
+        font-size: 1.5rem;
+        margin: 1rem 0;
+    }
+    
+</style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" style="text-decoration: none; color: inherit;">
+        <h1>Coffee Order System</h1>
+    </a>
+    <div class="order-status" onclick="location.href='orders.html';">Order Status</div>
+</header>
+
+<main>
+    <div class="beverage-title">Select the beverage</div>
+    <div class="beverage-options">
+        <button type="button">Dark Roast</button>
+        <button type="button">Espresso</button>
+        <button type="button">House Blend</button>
+        <button type="button">Decaf</button>
+    </div>
+</main>
+
+<script>
+document.querySelectorAll('button').forEach(function(button) {
+    button.onclick = function() {
+        var beverage = button.textContent.toLowerCase();
+        localStorage.setItem('selectedBeverage', beverage);
+        window.location.href =  'condiment.html'; 
+    };
+});
+
+</script>
+
+</body>
+</html>

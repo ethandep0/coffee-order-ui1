@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coffee Order System</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: rgb(219, 182, 119); 
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background-color: #f5f5dc;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    header h1 {
+        margin: 0;
+        font-size: 1.5rem;
+        color: #333;
+    }
+    .order-status {
+        cursor: pointer;
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        background-color: #e4b98d;
+        color: #fff;
+        text-decoration: none;
+    }
+    .order-status:hover {
+        background-color: #a07755;
+    }
+    main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .condiment-options {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+    button {
+        background-color: #e4b98d;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        text-transform: uppercase;
+    }
+    button:hover {
+        background-color: #a07755;
+    }
+    .condiment-title {
+        text-align: center;
+        font-size: 1.5rem;
+        margin: 1rem 0;
+    }
+    #orderSummary {
+        border: 2px solid #2b2b2b;
+        padding: 10px;
+        width: 200px;
+        position: absolute;
+        right: 20px;
+        top: 100px;
+        background-color: white;
+    }
+    #orderSummary h2 {
+        margin-top: 0;
+        color: #333;
+    }
+    #orderItems {
+        list-style-type: none;
+        padding-left: 0;
+    }
+    #orderItems li {
+        margin: 5px;
+        background-color: #f5f5dc;
+        padding: 10px;
+        cursor: pointer;
+    }
+    #orderItems li:hover {
+        background-color: #ebebd3;
+    }
+    .order-status {
+        cursor: pointer;
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        background-color: #e4b98d;
+        color: #fff;
+        text-decoration: none;
+    }
+    .order-status:hover {
+        background-color: #a07755;
+    }
+    main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    
+</style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" style="text-decoration: none; color: inherit;">
+        <h1>Coffee Order System</h1>
+    </a>
+    <div class="order-status" onclick="location.href='orders.html';">Order Status</div>
+</header>
+
+<main>
+    <div class="condiment-title">Add the condiments</div>
+    <div class="condiment-options">
+        <button type="button" onclick="addCondiment('Milk')">Milk</button>
+        <button type="button" onclick="addCondiment('Mocha')"> Mocha</button>
+        <button type="button" onclick="addCondiment('Soy')">Soy</button>
+        <button type="button" onclick="addCondiment('Whip')">Whip</button>
+    </div>
+</main>
+
+<div id="orderSummary">
+    <h2>My Order</h2>
+    <div id="selectedBeverage"> Beverage: <span id="beverageName">None</span></div>
+    <ul id="orderItems"></ul>
+    <button onclick="confirmOrder()">Confirm Order</button>
+</div>
+
+<script>
+    var selectedBeverage = localStorage.getItem('selectedBeverage') || 'None';
+    document.getElementById('beverageName').textContent = selectedBeverage;
+
+    var order = [];
+
+    function addCondiment(condiment) {
+        if (!order.includes(condiment)) {
+            order.push(condiment);
+            updateOrderDisplay();
+        }
+    }
+
+    function removeCondiment(item) {
+        if (item === selectedBeverage) {
+            localStorage.removeItem('selectedBeverage');
+            localStorage.removeItem('selectedCondiments');
+            window.location.href = 'index.html';
+            return;
+        }
+
+        order = order.filter(function(condiment) {
+            return condiment !== item;
+        });
+        
+        updateOrderDisplay();
+    }
+
+    function updateOrderDisplay() {
+        var list = document.getElementById('orderItems');
+        list.innerHTML = '';
+        if (selectedBeverage && selectedBeverage !== 'None') {
+            var beverageLi = document.createElement('li');
+            beverageLi.textContent = 'Beverage: ' + selectedBeverage;
+            beverageLi.onclick = function() { removeCondiment(selectedBeverage); };
+            list.appendChild(beverageLi);
+        }
+        order.forEach(function(condiment) {
+            var li = document.createElement('li');
+            li.textContent = condiment;
+            li.onclick = function() { removeCondiment(condiment); };
+            list.appendChild(li);
+        });
+    }
+
+    function confirmOrder() {
+        localStorage.setItem('selectedCondiments', order.join(','));
+        window.location.href = 'summary.html';  
+    }
+
+    updateOrderDisplay();
+    </script>
+
+</body>
+</html>
