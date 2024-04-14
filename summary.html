@@ -96,6 +96,7 @@
 <main class="summary">
    
 </main>
+<script src="configuration.js"></script>
 <script>
     var beverage = localStorage.getItem('selectedBeverage');
     var condiments = localStorage.getItem('selectedCondiments')||[];
@@ -106,10 +107,12 @@ var orderData = {
     condiments: condimentsArray
 };
     console.log(JSON.stringify(orderData)); 
-    fetch('https://coffee-order-ui1.onrender.com/orders', {
+    fetch(getHost()+'/orders', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${configuration.token()}`
+
     },
     body: JSON.stringify(orderData),
 })
@@ -131,9 +134,6 @@ var orderData = {
     console.error('Error:', error);
     document.querySelector('.summary').textContent = 'There was an error processing your order: ' + error.message;
 });
-
-
-    // Clear localStorage after order has been placed
     localStorage.clear();
 </script>
 
